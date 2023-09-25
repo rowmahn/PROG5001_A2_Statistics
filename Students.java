@@ -21,10 +21,12 @@ public class Students
     public static void readDataFromFile(){
         String fileName;
         Scanner sc = new Scanner(System.in);
-        System.out.println("Enter file name");
         
+        //Input file name
+        System.out.println("Enter file name");
         fileName = sc.nextLine();
         
+        //Reading the file
         try {
             BufferedReader reader = new BufferedReader(new FileReader(fileName)); 
             String unitName = null;
@@ -40,6 +42,8 @@ public class Students
                     unitName = line.trim();
                     continue;    
                 }
+                
+                // Parsing the contents from the file
 
                 String[] data = line.split(",");   
                 
@@ -47,11 +51,16 @@ public class Students
                     String lastName = data[0].trim();
                     String firstName = data[1].trim();
                     String studentId = data[2].trim();
+                    double[] assignmentMarks = new double[3]; //Array to store A1, A2 & A3.
                     
-                    try {
-                        double[] assignmentMarks = Arrays.stream(data, 3, 6)
-                                                        .mapToDouble(Double::parseDouble)
-                                                        .toArray();
+                    try {  
+                        for (int i = 0; i < 3; i++) {
+                        if (!data[i + 3].trim().isEmpty()) {
+                            assignmentMarks[i] = Double.parseDouble(data[i + 3].trim());
+                        } else {
+                            assignmentMarks[i] = 0.0; // Set to 0 if the field is blank or null
+                        }
+                    }
                         StudentData student = new StudentData(lastName, firstName, studentId, assignmentMarks);
                         studentDataList.add(student);
     
@@ -63,9 +72,19 @@ public class Students
             }
             
             System.out.println("Unit Name: " + unitName);
+            
+            //F2 Calculating total marks
             System.out.println("Student Data:");
-            for (StudentData student : studentDataList) {
-                System.out.println(student.toString());
+             for (StudentData student : studentDataList) {
+                double totalMark = 0.0;
+                for (double mark : student.getAssignmentMarks()) {
+                    totalMark = totalMark + mark;
+                }
+                System.out.println("Name: " + student.getFirstName() + " " + student.getLastName());
+                System.out.println("Student ID: " + student.getStudentId());
+                System.out.println("Assessment Marks: " + Arrays.toString(student.getAssignmentMarks()));
+                System.out.println("Total Mark: " + totalMark);
+                System.out.println();
             }
 
             reader.close();

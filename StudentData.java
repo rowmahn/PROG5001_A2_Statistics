@@ -20,14 +20,22 @@ public class StudentData
         this.studentId = studentId;
         this.assignmentMarks = assignmentMarks;
     }
-
-    @Override
-    public String toString() {
-        return "StudentData{" +
-                "lastName='" + lastName + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", studentId=" + studentId +
-                ", assignmentMarks=" + Arrays.toString(assignmentMarks) +
-                '}';
+    
+    public String getLastName(){
+        return lastName;
     }
+    
+    public String getFirstName(){
+        return firstName;
+    }
+    
+    public String getStudentId(){
+        return studentId;
+    }
+    
+    public double[] getAssignmentMarks(){
+        return assignmentMarks;
+    }
+
+    
 }
