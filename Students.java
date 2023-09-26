@@ -11,18 +11,18 @@ import java.util.*;
 public class Students
 {
     static List<StudentData> studentDataList = new ArrayList<>();
+    static Scanner sc = new Scanner(System.in);
 
     public static void main (String[] args){
-    
         readDataFromFile();
         totalMarks();
+        studentBelowThreshold();
     
     }
     
     //Reading the file
     public static void readDataFromFile(){
         String fileName;
-        Scanner sc = new Scanner(System.in);
         
         //Input file name
         System.out.println("Enter file name");
@@ -83,7 +83,6 @@ public class Students
     
     //F2 Calculating total marks
     public static void totalMarks(){
-        try{
             System.out.println("Student Data:");
             for (StudentData student : studentDataList) {
                 double totalMark = 0.0;
@@ -96,9 +95,31 @@ public class Students
                 System.out.println("Total Mark: " + totalMark);
                 System.out.println();
             }
-        } catch (NumberFormatException e) {
-                System.err.println("Error parsing assignment marks: " + e.getMessage());
-        }
     }
     
+    //F3 Displaying the list of students below threshold
+    public static void studentBelowThreshold(){
+        List<StudentData> belowThresholdStudents = new ArrayList<>();
+        System.out.println("Enter threshold ");
+        double threshold = sc.nextDouble();
+
+        for (StudentData student : studentDataList) {
+            double totalMark = Arrays.stream(student.getAssignmentMarks()).sum();
+            if (totalMark < threshold) {
+                belowThresholdStudents.add(student);
+            }
+        }
+
+        if (belowThresholdStudents.isEmpty()) {
+            System.out.println("No students found below the threshold.");
+        } else {
+            System.out.println("Students below the threshold:");
+            for (StudentData student : belowThresholdStudents) {
+                System.out.println("Name: " + student.getFirstName() + " " + student.getLastName());
+                System.out.println("Student ID: " + student.getStudentId());
+                System.out.println("Total Mark: " + Arrays.stream(student.getAssignmentMarks()).sum());
+                System.out.println();
+            }
+        }
+    }
 }
