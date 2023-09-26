@@ -10,14 +10,16 @@ import java.io.*;
 import java.util.*;
 public class Students
 {
-    
+    static List<StudentData> studentDataList = new ArrayList<>();
 
     public static void main (String[] args){
     
         readDataFromFile();
+        totalMarks();
     
     }
     
+    //Reading the file
     public static void readDataFromFile(){
         String fileName;
         Scanner sc = new Scanner(System.in);
@@ -26,12 +28,10 @@ public class Students
         System.out.println("Enter file name");
         fileName = sc.nextLine();
         
-        //Reading the file
         try {
             BufferedReader reader = new BufferedReader(new FileReader(fileName)); 
             String unitName = null;
             String line;
-            List<StudentData> studentDataList = new ArrayList<>();
             
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith("#")) {
@@ -73,9 +73,19 @@ public class Students
             
             System.out.println("Unit Name: " + unitName);
             
-            //F2 Calculating total marks
+            reader.close();
+        }
+        
+        catch (IOException e) {
+            System.err.println("Error reading from file: " + e.getMessage());
+        }
+    }
+    
+    //F2 Calculating total marks
+    public static void totalMarks(){
+        try{
             System.out.println("Student Data:");
-             for (StudentData student : studentDataList) {
+            for (StudentData student : studentDataList) {
                 double totalMark = 0.0;
                 for (double mark : student.getAssignmentMarks()) {
                     totalMark = totalMark + mark;
@@ -86,13 +96,8 @@ public class Students
                 System.out.println("Total Mark: " + totalMark);
                 System.out.println();
             }
-
-            reader.close();
-        
-        }
-        
-        catch (IOException e) {
-            System.err.println("Error reading from file: " + e.getMessage());
+        } catch (NumberFormatException e) {
+                System.err.println("Error parsing assignment marks: " + e.getMessage());
         }
     }
     
