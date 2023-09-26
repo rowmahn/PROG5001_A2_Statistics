@@ -14,17 +14,13 @@ public class Students
     static Scanner sc = new Scanner(System.in);
 
     public static void main (String[] args){
-        readDataFromFile();
-        totalMarks();
-        studentBelowThreshold();
-    
+        mainMenu();
     }
     
     //Reading the file
     public static void readDataFromFile(){
-        String fileName;
-        
         //Input file name
+        String fileName;
         System.out.println("Enter file name");
         fileName = sc.nextLine();
         
@@ -119,6 +115,98 @@ public class Students
                 System.out.println("Student ID: " + student.getStudentId());
                 System.out.println("Total Mark: " + Arrays.stream(student.getAssignmentMarks()).sum());
                 System.out.println();
+            }
+        }
+    }
+    
+    //F4 Displaying top 5 top and button students
+    public static void topBottomStudents(){
+        if (studentDataList.isEmpty()) {
+            System.out.println("No student data available.");
+            return;
+        }
+
+        List<StudentData> top5Students = new ArrayList<>();
+        List<StudentData> bottom5Students = new ArrayList<>();
+        double totalMark = 0;
+
+        for (int i = 0; i < 5; i++) {
+            double maxTotalMark = -1.0; // Initialize to a very low value
+            double minTotalMark = Double.POSITIVE_INFINITY; // Initialize to a very high value
+            StudentData maxStudent = null;
+            StudentData minStudent = null;
+
+            for (StudentData student : studentDataList) {
+                totalMark = Arrays.stream(student.getAssignmentMarks()).sum();
+
+                if (totalMark > maxTotalMark && !top5Students.contains(student)) {
+                    maxTotalMark = totalMark;
+                    maxStudent = student;
+                }
+                
+                if (totalMark < minTotalMark && !bottom5Students.contains(student)) {
+                    minTotalMark = totalMark;
+                    minStudent = student;
+                }
+            }
+
+            top5Students.add(maxStudent);
+            bottom5Students.add(minStudent);
+        }
+
+        System.out.println("Top 5 Students with Highest Total Marks:");
+        for (StudentData student : top5Students) {
+            System.out.println("Name: " + student.getFirstName() + " " + student.getLastName());
+            System.out.println("Student ID: " + student.getStudentId());
+            System.out.println("Total Mark: " + Arrays.stream(student.getAssignmentMarks()).sum());
+            System.out.println();
+        }
+
+        System.out.println("Bottom 5 Students with Lowest Total Marks:");
+        for (StudentData student : bottom5Students) {
+            System.out.println("Name: " + student.getFirstName() + " " + student.getLastName());
+            System.out.println("Student ID: " + student.getStudentId());
+            System.out.println("Total Mark: " + Arrays.stream(student.getAssignmentMarks()).sum());
+            System.out.println();
+        }
+    }
+    
+    //F5 Create menuoption
+    public static void mainMenu() {
+        while (true) {
+            System.out.println("Menu Options:");
+            System.out.println("1. Read student data from file");
+            System.out.println("2. Calculate and print total marks");
+            System.out.println("3. Print students below a threshold");
+            System.out.println("4. Print top and bottom students");
+            System.out.println("5. Exit");
+            System.out.print("Enter your one selection: ");
+
+            int select = sc.nextInt();
+            sc.nextLine(); // Consume newline character
+
+            switch (select) {
+
+                case 1:
+                    readDataFromFile();
+                    break;
+                case 2:
+                    readDataFromFile();
+                    totalMarks();
+                    break;
+                case 3:
+                    readDataFromFile();
+                    studentBelowThreshold();
+                    break;
+                case 4:
+                    readDataFromFile();
+                    topBottomStudents();
+                    break;
+                case 5:
+                    sc.close();
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid selection. Please select a valid option.");
             }
         }
     }
