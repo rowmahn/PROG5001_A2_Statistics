@@ -120,56 +120,57 @@ public class Students
     }
     
     //F4 Displaying top 5 top and button students
+    
     public static void topBottomStudents(){
         if (studentDataList.isEmpty()) {
             System.out.println("No student data available.");
-            return;
+        return;
         }
 
-        List<StudentData> top5Students = new ArrayList<>();
-        List<StudentData> bottom5Students = new ArrayList<>();
-        double totalMark = 0;
+    List<StudentData> top5Students = new ArrayList<>();
+    List<StudentData> bottom5Students = new ArrayList<>();
 
-        for (int i = 0; i < 5; i++) {
-            double maxTotalMark = -1.0; // Initialize to a very low value
-            double minTotalMark = Double.POSITIVE_INFINITY; // Initialize to a very high value
-            StudentData maxStudent = null;
-            StudentData minStudent = null;
+    for (int i = 0; i < 5; i++) {
+        double maxTotalMark = -1.0; // Initialize to a very low value
+        double minTotalMark = Double.POSITIVE_INFINITY; // Initialize to a very high value
+        StudentData maxStudent = null;
+        StudentData minStudent = null;
 
-            for (StudentData student : studentDataList) {
-                totalMark = Arrays.stream(student.getAssignmentMarks()).sum();
+        for (StudentData student : studentDataList) {
+            double totalMark = Arrays.stream(student.getAssignmentMarks()).sum();
 
-                if (totalMark > maxTotalMark && !top5Students.contains(student)) {
-                    maxTotalMark = totalMark;
-                    maxStudent = student;
-                }
-                
-                if (totalMark < minTotalMark && !bottom5Students.contains(student)) {
-                    minTotalMark = totalMark;
-                    minStudent = student;
-                }
+            if (totalMark > maxTotalMark && !top5Students.contains(student)) {
+                maxTotalMark = totalMark;
+                maxStudent = student;
             }
-
-            top5Students.add(maxStudent);
-            bottom5Students.add(minStudent);
+            
+            if (totalMark < minTotalMark && !bottom5Students.contains(student)) {
+                minTotalMark = totalMark;
+                minStudent = student;
+            }
         }
 
-        System.out.println("Top 5 Students with Highest Total Marks:");
-        for (StudentData student : top5Students) {
-            System.out.println("Name: " + student.getFirstName() + " " + student.getLastName());
-            System.out.println("Student ID: " + student.getStudentId());
-            System.out.println("Total Mark: " + Arrays.stream(student.getAssignmentMarks()).sum());
-            System.out.println();
-        }
+        top5Students.add(maxStudent);
+        bottom5Students.add(minStudent);
+    }
 
-        System.out.println("Bottom 5 Students with Lowest Total Marks:");
-        for (StudentData student : bottom5Students) {
-            System.out.println("Name: " + student.getFirstName() + " " + student.getLastName());
-            System.out.println("Student ID: " + student.getStudentId());
-            System.out.println("Total Mark: " + Arrays.stream(student.getAssignmentMarks()).sum());
-            System.out.println();
+    System.out.println("Top 5 Students with Highest Total Marks:");
+    for (StudentData student : top5Students) {
+        System.out.println("Name: " + student.getFirstName() + " " + student.getLastName());
+        System.out.println("Student ID: " + student.getStudentId());
+        System.out.println("Total Mark: " + Arrays.stream(student.getAssignmentMarks()).sum());
+        System.out.println();
+    }
+
+    System.out.println("Bottom 5 Students with Lowest Total Marks:");
+    for (StudentData student : bottom5Students) {
+        System.out.println("Name: " + student.getFirstName() + " " + student.getLastName());
+        System.out.println("Student ID: " + student.getStudentId());
+        System.out.println("Total Mark: " + Arrays.stream(student.getAssignmentMarks()).sum());
+        System.out.println();
         }
     }
+
     
     //F5 Create menuoption
     public static void mainMenu() {
